@@ -1,0 +1,13 @@
+with open('/Users/xxennie/Downloads/input_6.txt', 'r') as f:
+    k = int(f.readline())
+    string = f.readline()
+    lst = []
+    for i in range(len(string) - k + 1):
+        n = string[i:k + i]
+        lst.append(n)
+    s = ''
+    for i in lst:
+        s += i + ' '
+    s = s[:-1]
+with open('/Users/xxennie/Downloads/res.txt', 'w') as r:
+    r.write(s)
