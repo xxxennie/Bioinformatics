@@ -1,0 +1,6 @@
+with open('/Users/xxennie/Downloads/dataset_30182_3.txt', 'r') as f:
+    f = f.read().split()
+    res = f.pop(0)
+    for i in f:
+        res += i[-1]
+    print(res)
