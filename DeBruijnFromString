@@ -1,0 +1,14 @@
+def DeBruijnFromString(string, k):
+    adjacency_list = {}
+    for i in range(len(string) - k):
+        pattern = string[i:k+i]
+        if pattern not in adjacency_list.keys():
+            adjacency_list[pattern] = string[i+1:k+i+1]
+        else:
+            adjacency_list[pattern] += ' ' + string[i+1:k+i+1]
+    for i, j in adjacency_list.items():
+        print(i, ":", j)
+DeBruijnFromString('AAGATTCTCTAAGA', 3)
+with open('/Users/xxennie/Downloads/dataset_30183_6.txt', 'r') as f:
+    k = int(f.readline()) - 1
+    DeBruijnFromString(f.readline().strip(), k)
