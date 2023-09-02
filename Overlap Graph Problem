@@ -1,0 +1,14 @@
+def Overlap_Graph(patterns):
+    patterns = patterns.split()
+    adjacency_list = {}
+    for pattern in patterns:
+        for key in patterns:
+            if pattern[:-1] == key[1:]:
+                if key not in adjacency_list.keys():
+                    adjacency_list[key] = pattern
+                else: 
+                    adjacency_list[key] += ' ' + pattern
+    for i, j in adjacency_list.items():
+        print(i, ":", j)
+with open('/Users/xxennie/Downloads/dataset_30182_10.txt', 'r') as f:
+    Overlap_Graph(f.read())
