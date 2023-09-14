@@ -1,0 +1,60 @@
+import random
+
+#generating graph from file
+
+file_path = '/Users/xxennie/Downloads/dataset_30187_2.txt'
+ad_lst = {}
+def reading_file(file_path):
+    '''
+    Info: This function converts data to dict in format {node: [list of available next_nodes from this node]}
+    '''
+    ad_lst = {}
+    with open(file_path, 'r') as f:
+        file = f.read().split('\n')
+        for i in file:
+            print(i)
+            key, path = i.split(': ')
+            ad_lst[key] = list(path.strip().split(' '))
+    return ad_lst
+
+def EulerianCycleProblem(ad_lst):
+    '''
+    Info: Path composition by generating cyclic paths. When our path closes on a starting node, we again select a random node from those already visited, 
+          but where there are unused paths available, and begin searching for the next cycle. 
+    '''
+    node = str(random.randint(0,len(ad_lst.keys())-1 ))
+    start = node
+    visited = [start]
+    
+    #counting edges
+    graph_len = 0
+    for i in ad_lst.values():
+        graph_len += len(i)
+    print(graph_len)
+    
+    while len(visited) != graph_len + 1:
+        try:
+            next_node = ad_lst[node][0]
+        except:
+            n_node = random.randint(0, len(visited) - 1)
+            node = visited[n_node]
+            while node not in ad_lst.keys():
+                n_node = random.randint(0, len(visited) - 1)
+                node = visited[n_node]
+            if visited[0] == visited[-1]:
+                visited.pop()
+            visited = visited[n_node:] + visited[:n_node + 1]
+            next_node = ad_lst[node][0]
+        if len(ad_lst[node]) == 1:
+            del ad_lst[node]
+        else:
+            ad_lst[node].pop(0)
+
+        visited.append(next_node)
+        node = next_node
+        if len(ad_lst.keys()) == 0:
+            break
+    return visited
+result = EulerianCycleProblem(reading_file(file_path))
+
+print(*result)
