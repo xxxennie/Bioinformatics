@@ -2,30 +2,30 @@
 ## University of California San Diego
 
 
-This repository contains my progress and solutions for the course "Genome Sequencing (Bioinformatics II)". 
+This repository contains my progress and solutions for the course "Genome Sequencing (Bioinformatics II)" at the University of California San Diego.
 
 ## Course Overview
-This course is part of the Algorithms specialization offered by the University of California San Diego. It focuses on the study of genome sequencing techniques and algorithms used in bioinformatics. The course covers topics such as sequence alignment, DNA sequencing technologies, and assembly algorithms.
+The "Genome Sequencing (Bioinformatics II)" course is a part of the Algorithms specialization offered by the University of California San Diego. Its primary focus is on the study of genome sequencing techniques and the algorithms used in the field of bioinformatics. The course covers a wide range of topics, including sequence alignment, DNA sequencing technologies, and assembly algorithms.
 
 ## Contents
-The repository is structured as follows:
+This repository is organized into the following sections:
 
-- Week 1: Introduction to genome sequencing
-- Week 2: Sequence alignment algorithms
-- Week 3: Short read alignments and variant calling
-- Week 4: Assembly algorithms
-- Week 5: Genome scaffolding and finishing
-- Week 6: Final project
+- Week 1: Introduction to Genome Sequencing
+- Week 2: Sequence Alignment Algorithms
+- Week 3: Short Read Alignments and Variant Calling
+- Week 4: Assembly Algorithms
+- Week 5: Genome Scaffolding and Finishing
+- Week 6: Final Project
 
-Each week's folder contains the corresponding lecture materials, programming assignments, and my solutions.
+Each week's folder consists of lecture materials, programming assignments, and my solutions.
 
 ## Progress
-I will be committing my progress and solution code regularly within the respective week's folder. Please feel free to explore the code and offer any feedback or suggestions.
+I will be continuously updating and committing my progress, including the code solutions for each week, into the respective folders. You are welcome to explore the code and provide any feedback or suggestions you may have.
 
 ## Getting Started
-To access the course materials and programming assignments, refer to the official website of the Algorithms specialization by University of California San Diego.
+To access the course materials and programming assignments, kindly refer to the official website of the Algorithms specialization offered by the University of California San Diego.
 
 ## Contact
-If you have any questions or suggestions, feel free to reach out to me at your@email.com.
+If you have any questions or suggestions, please do not hesitate to reach out to me at ksenia.koroskina@gmail.com.
 
 Happy learning!
