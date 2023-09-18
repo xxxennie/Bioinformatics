@@ -95,7 +95,7 @@ def EulerianCycleProblem(ad_lst, start):
             break
     return visited
 
-#this function delets the connection between end and start and creates final version of the path
+#this function deletes the connection between end and start and creates final version of the path
 
 def reversing(path, start, end):
     for i in range(len(result)- 1):
