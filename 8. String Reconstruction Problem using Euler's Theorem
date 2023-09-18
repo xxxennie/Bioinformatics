@@ -1,0 +1,135 @@
+'''
+You now have a method to assemble a genome, since the String Reconstruction Problem reduces to finding an Eulerian path in the de Bruijn graph generated from reads.
+
+We can therefore summarize this solution using the following pseudocode, which relies on three problems that we have already solved:
+    The de Bruijn Graph Construction Problem;
+    The Eulerian Path Problem;
+    The String Spelled by a Genome Path Problem.
+    
+StringReconstruction(Patterns)
+    dB ← DeBruijn(Patterns)
+    path ← EulerianPath(dB)
+    Text﻿ ← PathToGenome(path)
+    return Text
+    
+Code Challenge: Solve the String Reconstruction Problem.
+
+Input: An integer k followed by a list of k-mers Patterns.
+Output: A string Text with k-mer composition equal to Patterns. (If multiple answers exist, you may return any one.)
+
+Sample Input:
+
+4
+CTTA ACCA TACC GGCT GCTT TTAC
+Sample Output:
+
+GGCTTACCA
+'''
+
+#creating graph from the file
+
+with open('/Users/xxennie/Downloads/dataset_30187_7.txt', 'r') as f:
+    k = f.readline()
+    kmers = f.readline().split()
+def deBruijnGraph(kmers):
+    k = len(kmers[0])
+    graph = {}
+    for i in range(len(kmers)):
+        try:
+            graph[kmers[i][:-1]].append(kmers[i][1:])
+        except:
+            graph[kmers[i][:-1]] = [kmers[i][1:]]
+    return graph, k
+
+
+#finding the first and the last nodes in the graph
+
+def Finding_StartEnd(ad_lst):
+    start = None
+    end = None
+    values = []
+    for i in ad_lst.values():
+        values+= i
+    for i in values:
+        if i not in ad_lst.keys():
+            start = i
+    for key, lst in ad_lst.items():
+        if len(lst) > values.count(key):
+            end = key
+        elif len(lst) < values.count(key):
+            start = key
+    try:
+        ad_lst[start] += [end]
+    except:
+        ad_lst[start] = [end]
+    return ad_lst, end, start
+        
+
+# finding cycle (end connected with start in the output of this function)
+
+def EulerianCycleProblem(ad_lst, start):
+    visited = [start]
+    node = start
+    #counting edges
+    graph_len = 0
+    for i in ad_lst.values():
+        graph_len += len(i)
+    print(graph_len)
+    
+    while len(visited) != graph_len:
+        try:
+            next_node = ad_lst[node][0]
+        except:
+            n_node = random.randint(0, len(visited) - 1)
+            node = visited[n_node]
+            while node not in ad_lst.keys():
+                n_node = random.randint(0, len(visited) - 1)
+                node = visited[n_node]
+            if visited[0] == visited[-1]:
+                visited.pop()
+            
+            visited = visited[n_node:] + visited[:n_node + 1]
+            next_node = ad_lst[node][0]
+        if len(ad_lst[node]) == 1:
+            del ad_lst[node]
+        else:
+            ad_lst[node].pop(0)
+
+        visited.append(next_node)
+        node = next_node
+        if len(ad_lst.keys()) == 0:
+            break
+    return visited
+
+#this function deletes the connection between end and start and creates final version of the path
+
+def reversing(path, start, end):
+    end_index = -1
+    for i in range(len(path)- 1):
+        if path[i] == end and path[i + 1] == start:
+            print(start,end)
+            end_index = i
+            break
+    
+    path = path[end_index+1:] + path[:end_index+1]
+    return path
+
+#reconstruction of DNA from eulerian path
+def assembling(path, k):
+    result = ''
+    for i in path:
+        result += i[0]
+    if k > 2:
+        result += path[-1][1:]
+    return result
+    
+graph, k = deBruijnGraph(kmers)
+
+
+def main(graph, k):
+  cycled_data, start, end = Finding_StartEnd(graph)
+  result_with_extra_path = EulerianCycleProblem(cycled_data, start)
+  eulerian_path = reversing(result_with_extra_path, start, end)
+  result = assembling(eulerian_path, k)
+
+print(main(graph, k))
