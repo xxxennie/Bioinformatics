@@ -1,0 +1,49 @@
+'''
+The theoretical spectrum of a cyclic peptide Peptide, denoted Cyclospectrum(Peptide), is the collection of all of the masses of its subpeptides, in addition to the mass 0 
+and the mass of the entire peptide, with masses ordered from smallest to largest. We will assume that the theoretical spectrum can contain duplicate elements, as is the case for NQEL (shown below), 
+where NQ and EL have the same mass.
+
+
+
+Generating Theoretical Spectrum Problem: Generate the theoretical spectrum of a cyclic peptide.
+
+Input: An amino acid string Peptide.
+Output: Cyclospectrum(Peptide).
+
+Sample Input:
+
+LEQN
+Sample Output:
+
+0 113 114 128 129 227 242 242 257 355 356 370 371 484
+'''
+
+#obtaining list of prefixes of cyclic peptide
+def find_prefix(peptide):
+    prefix_list = []
+    for i in range(len(peptide)):
+        for j in range(i, len(peptide)):
+            prefix_list.append(peptide[i:j + 1])
+    for i in range(2, len(peptide)):
+        for j in range(0, i - 1):
+            prefix_list.append(peptide[i:len(peptide)] + peptide[0:j + 1])
+
+    return prefix_list
+
+
+#counting mass of the list of prefixes
+def CyclicSpectrum(prefix_list):
+    AminoAcidMass = {'G': 57, 'A': 71, 'S': 87, 'P': 97, 'V': 99, 'T': 101, 'C': 103, 'I': 113,
+                 'L': 113, 'N': 114, 'D': 115, 'K': 128, 'Q': 128, 'E': 129, 'M': 131,
+                 'H': 137, 'F': 147, 'R': 156, 'Y': 163, 'W': 186}
+    result = [0]
+    for prefix in prefix_list:
+        cur = 0
+        for acid in prefix:
+            cur += AminoAcidMass[acid]
+        result.append(cur)
+    return sorted(result)
+
+peptide = 'NHVFPTAPSITKENI'
+prefix_list = find_prefix(peptide)
+print(*CyclicSpectrum(prefix_list))
