@@ -1,0 +1,108 @@
+'''
+We say that a DNA string Pattern encodes an amino acid string Peptide if the RNA string transcribed from either Pattern or its reverse complement Pattern translates into Peptide. For example, the DNA string GAAACT is transcribed into GAAACU and translated into ET. The reverse complement of this DNA string, AGTTTC, is transcribed into AGUUUC and translated into SF. Thus, GAAACT encodes both ET and SF.
+
+Peptide Encoding Problem: Find substrings of a genome encoding a given amino acid sequence.
+
+Input: A DNA string Text, an amino acid string Peptide, and the array GeneticCode.
+Output: All substrings of Text encoding Peptide (if any such substrings exist).
+Code Challenge: Solve the Peptide Encoding Problem. Click here for the RNA codon table corresponding to the array GeneticCode.
+
+Note: The solution may contain repeated strings if the same string occurs more than once as a substring of Text and encodes Peptide.
+
+Sample Input:
+
+ATGGCCATGGCCCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA
+MA
+Sample Output:
+
+ATGGCC
+GGCCAT
+ATGGCC
+
+'''
+
+
+#this function converts DNA pattern into amino acids string, after this step it finds all reference peptides in the amino string
+
+def Peptide_Encoding(pattern, peptide):  
+    l = len(peptide)
+    amino_acids = {  
+      'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',  
+      'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',  
+      'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K',  
+      'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',   
+      'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L',  
+      'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',  
+      'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q',  
+      'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',  
+      'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V',  
+      'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',  
+      'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E',  
+      'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',  
+      'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S',  
+      'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',  
+      'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',  
+      'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W',  
+      }  
+
+
+    codon_number = len(pattern) / 3
+    cur_pos = 1
+    codon = pattern[:3]
+    amino_string = ''
+    while cur_pos <= codon_number:
+        amino_string += amino_acids[codon]
+        codon = pattern[cur_pos * 3:cur_pos * 3 + 3]
+        cur_pos += 1
+    pos_list = []
+    result = []
+    
+    for i in range(len(amino_string)):
+        if amino_string[i:i+l] == peptide:
+            pos_list.append(i)
+    for i in pos_list:
+        result.append(pattern[i*3:i*3 + l * 3])
+    return result
+
+#this function builds complementary strain
+
+def reversing(pattern):
+    d = {
+        'A':'T',
+        'T':'A',
+        'G':'C',
+        'C':'G'
+    }
+    
+    result = ''
+    for nucl in pattern:
+        result += d[nucl]
+    return result
+
+#main function that works with 6 reading frames
+
+def main(pattern, peptide):
+    forward1 = Peptide_Encoding(pattern, peptide)
+    forward2 = Peptide_Encoding(pattern[1:-2], peptide)
+    forward3 = Peptide_Encoding(pattern[2:-1], peptide)
+    result = forward1 + forward2 + forward3
+    
+    pattern = reversing(pattern[::-1])
+    
+    reverse1 = Peptide_Encoding(pattern, peptide)
+    reverse2 = Peptide_Encoding(pattern[1:-2], peptide)
+    reverse3 = Peptide_Encoding(pattern[2:-1], peptide)
+    reversed_lst = reverse1 + reverse2 + reverse3
+    
+    for i in reversed_lst:
+        result.append(reversing(i)[::-1])
+    for i in result:
+        print(i)
+
+
+#obtaining data from file
+
+with open('/Users/xxennie/Downloads/dataset_30213_7.txt', 'r') as f:
+    pattern = f.readline()
+    peptide = f.readline()
+    main(pattern, peptide)
